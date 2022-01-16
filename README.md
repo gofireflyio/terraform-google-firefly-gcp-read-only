@@ -1,4 +1,5 @@
 # Firefly GCP ReadOnly Integration
+# ![Firefly Logo](firefly.gif)
 
 ## Module contents
 
@@ -26,5 +27,3 @@ module "firefly-read-only" {
   fierfly_secret_key  = "YOUR_SECRET_KEY"
 }
 ```
-
-# ![Firefly Logo](firefly.gif)
