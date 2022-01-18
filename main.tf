@@ -6,11 +6,12 @@ data "google_project" "current" {
 #-------------------#
 
 data "httpclient_request" "req" {
-  url = '${var.firefly_endpoint}/account/access_keys/login'
+  url = "${var.firefly_endpoint}/account/access_keys/login"
   request_headers = {
     Content-Type: "application/json",
   }
-  request_body = jsonencode({ "accessKey" : var.firefly_access_key,  "secretKey" : var.firefly_secret_key })
+  request_method = "POST"
+  request_body = jsonencode({ "accessKey"=var.firefly_access_key,  "secretKey"=var.firefly_secret_key })
 }
 
 output "token" {
@@ -21,16 +22,17 @@ output "response_code" {
   value = data.httpclient_request.req.response_code
 }
 
-resource "null_resource" "notify_firefly" {
+resource "null_resource" "firefly_create_integration" {
   triggers = {
     version = local.version
   }
 
   provisioner "local-exec" {
     command = <<CURL
-curl --request POST '${var.firefly_endpoint}/api/integrations/gcp/' \
-  --header 'Content-Type: application/json' \
-  --data-raw '${jsonencode({ "name" : var.name,  "projectId" : var.project_id, "serviceAccountKey": jsondecode(base64decode(google_service_account_key.credentials)) )}'
+curl --request POST "${var.firefly_endpoint}/integrations/gcp/" \
+  --header "Content-Type: application/json" \
+  --header "Authorization: Bearer ${jsondecode(data.httpclient_request.req.response_body).access_token}" \
+  --data ${jsonencode(jsonencode({"name"= var.name, "projectId"= var.project_id, "serviceAccountKey"= tostring(base64decode(google_service_account_key.credentials.private_key)) })) }
 CURL
   }
 

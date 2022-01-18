@@ -5,3 +5,4 @@ test
 *.json
 *.tfstate**
 .terraform.lock.hcl
+*.tfvars**
