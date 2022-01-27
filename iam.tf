@@ -8,7 +8,13 @@ resource "google_service_account" "firefly" {
 
 resource "google_project_iam_member" "service_account_project_membership" {
   project = data.google_project.current.project_id
-  role    = "roles/viewer"
+  role    = "roles/iam.securityReviewer"
+  member  = "serviceAccount:${google_service_account.firefly.email}"
+}
+
+resource "google_project_iam_member" "service_account_project_membership_storage_viewer" {
+  project = data.google_project.current.project_id
+  role    = "roles/storage.objectViewer"
   member  = "serviceAccount:${google_service_account.firefly.email}"
 }
 
