@@ -18,6 +18,12 @@ resource "google_project_iam_member" "service_account_project_membership_storage
   member  = "serviceAccount:${google_service_account.firefly.email}"
 }
 
+resource "google_project_iam_member" "service_account_project_viewer" {
+  project = data.google_project.current.project_id
+  role    = "roles/viewer"
+  member  = "serviceAccount:${google_service_account.firefly.email}"
+}
+
 resource "google_service_account_key" "credentials" {
   service_account_id = google_service_account.firefly.name
 }
