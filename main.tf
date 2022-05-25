@@ -32,7 +32,7 @@ resource "null_resource" "firefly_create_integration" {
 curl --request POST "${var.firefly_endpoint}/integrations/gcp/" \
   --header "Content-Type: application/json" \
   --header "Authorization: Bearer ${jsondecode(data.httpclient_request.req.response_body).access_token}" \
-  --data ${jsonencode(jsonencode({"name"= var.name, "projectId"= var.project_id, "serviceAccountKey"= tostring(base64decode(google_service_account_key.credentials.private_key)) })) }
+  --data ${jsonencode(jsonencode({"name"= var.name,"fetchable": true ,"projectId"= var.project_id, "serviceAccountKey"= tostring(base64decode(google_service_account_key.credentials.private_key)) })) }
 CURL
   }
 
