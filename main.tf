@@ -25,16 +25,32 @@ output "response_code" {
 resource "null_resource" "firefly_create_integration" {
   triggers = {
     version = local.version
+    token = data.httpclient_request.req.response_body
+    endpoint = var.firefly_endpoint
+    name  = var.name
+    project_id = var.project_id
+    private_key =  tostring(base64decode(google_service_account_key.credentials.private_key))
   }
 
   provisioner "local-exec" {
     command = <<CURL
-curl --request POST "${var.firefly_endpoint}/integrations/gcp/" \
+curl --request POST "${self.triggers.endpoint}/integrations/gcp/" \
   --header "Content-Type: application/json" \
-  --header "Authorization: Bearer ${jsondecode(data.httpclient_request.req.response_body).access_token}" \
-  --data ${jsonencode(jsonencode({"name"= var.name,"fetchable": true ,"projectId"= var.project_id, "serviceAccountKey"= tostring(base64decode(google_service_account_key.credentials.private_key)) })) }
+  --header "Authorization: Bearer ${jsondecode(self.triggers.token).access_token}" \
+  --data ${jsonencode(jsonencode({"name"= self.triggers.name,"fetchable": true ,"projectId"= self.triggers.project_id, "serviceAccountKey"= self.triggers.private_key })) }
 CURL
   }
+
+  provisioner "local-exec" {
+    when    = destroy
+    command = <<CURL
+curl --request DELETE "${self.triggers.endpoint}/integrations/gcp/integration/project" \
+  --header "Content-Type: application/json" \
+  --header "Authorization: Bearer ${jsondecode(self.triggers.token).access_token}" \
+  --data ${jsonencode(jsonencode({"name"=self.triggers.name ,"projectId"= self.triggers.project_id })) }
+CURL
+  }
+
 
   depends_on = [google_project_iam_member.service_account_project_membership, google_project_iam_member.service_account_project_membership_storage_viewer]
 }
