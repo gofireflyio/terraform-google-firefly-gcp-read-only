@@ -1,4 +1,3 @@
 provider "google" {
-  project = "flywheel-poc"
-  #credentials = file("credentials.json")
+  project = "google-project-name"
 }
