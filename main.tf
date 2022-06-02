@@ -34,17 +34,17 @@ resource "null_resource" "firefly_create_integration" {
 
   provisioner "local-exec" {
     command = <<CURL
-curl --request POST "${self.triggers.endpoint}/integrations/gcp/" \
+curl --request POST "${self.triggers.endpoint}/integrations/google/" \
   --header "Content-Type: application/json" \
   --header "Authorization: Bearer ${jsondecode(self.triggers.token).access_token}" \
-  --data ${jsonencode(jsonencode({"name"= self.triggers.name,"fetchable": true ,"projectId"= self.triggers.project_id, "serviceAccountKey"= self.triggers.private_key })) }
+  --data ${jsonencode(jsonencode({"name"= self.triggers.name ,"projectId"= self.triggers.project_id, "serviceAccountKey"= self.triggers.private_key })) }
 CURL
   }
 
   provisioner "local-exec" {
     when    = destroy
     command = <<CURL
-curl --request DELETE "${self.triggers.endpoint}/integrations/gcp/integration/project" \
+curl --request DELETE "${self.triggers.endpoint}/integrations/google/integration/project" \
   --header "Content-Type: application/json" \
   --header "Authorization: Bearer ${jsondecode(self.triggers.token).access_token}" \
   --data ${jsonencode(jsonencode({"name"=self.triggers.name ,"projectId"= self.triggers.project_id })) }
