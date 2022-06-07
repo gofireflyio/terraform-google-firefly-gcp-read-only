@@ -15,15 +15,19 @@ This module requires the cURL library to be installed on your machine.
 To check if you have cURL installed, type the following command in your terminal:
 
 ```shell script
-curl --help
+curl --version && gcloud version && terraform init
 ```
 
 ### Installation
 
 ```hcl-terraform
-module "firefly-read-only" {
-  source              = "infralight/terraform-google-firefly-gcp-read-only"
-  firefly_access_key  = "YOUR_ACCESS_KEY"
-  fierfly_secret_key  = "YOUR_SECRET_KEY"
+provider “google” {
+  project = “<GCP_PROJECT_NAME>”
 }
-```
+module “firefly” {
+  source                = “git@github.com:gofireflyio/terraform-google-firefly-gcp-read-only.git”
+  firefly_access_key    = “<SECRET>”
+  firefly_secret_key    = “<SECRET>”
+  name  		= “<INTEGRATION_NAME>”
+  project_id	 	= “<GCP_PROJECT_NAME>”
+}```
