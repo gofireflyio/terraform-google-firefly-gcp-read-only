@@ -16,6 +16,11 @@ resource "google_project_iam_member" "service_account_project_membership_storage
   project = data.google_project.current.project_id
   role    = "roles/storage.objectViewer"
   member  = "serviceAccount:${google_service_account.firefly.email}"
+  condition {
+    title       = "TFfstate"
+    description = "Allow access to objects that end with .tfstate only"
+    expression  = "resource.name.endsWith(\"tfstate\")"
+  }
 }
 
 resource "google_project_iam_member" "service_account_project_viewer" {
