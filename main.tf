@@ -5,52 +5,59 @@ data "google_project" "current" {
 # Activate services #
 #-------------------#
 
-data "httpclient_request" "req" {
-  url = "${var.firefly_endpoint}/account/access_keys/login"
-  request_headers = {
+data "terracurl_request" "firefly_login" {
+  name           = "firefly_gcp_integration"
+  url            = "${var.firefly_endpoint}/account/access_keys/login"
+  method         = "POST"
+  headers        = {
     Content-Type: "application/json",
   }
-  request_method = "POST"
   request_body = jsonencode({ "accessKey"=var.firefly_access_key,  "secretKey"=var.firefly_secret_key })
+
 }
 
 output "token" {
-  value = jsondecode(data.httpclient_request.req.response_body).access_token
+  value = jsondecode(data.terracurl_request.firefly_login.response).access_token
 }
 
 output "response_code" {
-  value = data.httpclient_request.req.response_code
+  value = data.terracurl_request.firefly_login.response
 }
 
-resource "null_resource" "firefly_create_integration" {
-  triggers = {
-    version = local.version
-    token = data.httpclient_request.req.response_body
-    endpoint = var.firefly_endpoint
-    name  = var.name
-    project_id = var.project_id
-    private_key =  tostring(base64decode(google_service_account_key.credentials.private_key))
+resource "terracurl_request" "firefly_gcp_integration" {
+  name           = "firefly gcp provider integration"
+  url            = "${var.firefly_endpoint}/integrations/google"
+  method         = "POST"
+  request_body   = jsonencode(
+    {
+      "name"= var.name,
+      "projectId"= var.project_id,
+      "serviceAccountKey"= tostring(base64decode(google_service_account_key.credentials.private_key))
+    }
+  )
+
+  headers = {
+    Content-Type = "application/json"
+    Authorization: "Bearer ${jsondecode(data.terracurl_request.firefly_login.response).access_token}"
   }
 
-  provisioner "local-exec" {
-    command = <<CURL
-curl --request POST "${self.triggers.endpoint}/integrations/google/" \
-  --header "Content-Type: application/json" \
-  --header "Authorization: Bearer ${jsondecode(self.triggers.token).access_token}" \
-  --data ${jsonencode(jsonencode({"name"= self.triggers.name ,"projectId"= self.triggers.project_id, "serviceAccountKey"= self.triggers.private_key })) }
-CURL
+  response_codes = [200]
+
+  destroy_url    = "${var.firefly_endpoint}/integrations/google/integration/project"
+  destroy_method = "DELETE"
+
+  destroy_headers = {
+    Content-Type = "application/json"
+    Authorization: "Bearer ${jsondecode(data.terracurl_request.firefly_login.response).access_token}"
   }
 
-  provisioner "local-exec" {
-    when    = destroy
-    command = <<CURL
-curl --request DELETE "${self.triggers.endpoint}/integrations/google/integration/project" \
-  --header "Content-Type: application/json" \
-  --header "Authorization: Bearer ${jsondecode(self.triggers.token).access_token}" \
-  --data ${jsonencode(jsonencode({"name"=self.triggers.name ,"projectId"= self.triggers.project_id })) }
-CURL
-  }
-
-
+  destroy_request_body =  jsonencode(
+    {
+      "name"= var.name,
+      "projectId"= var.project_id
+    }
+  )
+  destroy_response_codes = [204]
   depends_on = [google_project_iam_member.service_account_project_membership, google_project_iam_member.service_account_project_membership_storage_viewer]
 }
+
