@@ -36,6 +36,13 @@ resource "terracurl_request" "firefly_gcp_integration" {
     }
   )
 
+ lifecycle {
+      ignore_changes = [
+        headers,
+        destroy_headers
+      ]
+  }
+
   headers = {
     Content-Type = "application/json"
     Authorization: "Bearer ${jsondecode(data.terracurl_request.firefly_login.response).access_token}"
