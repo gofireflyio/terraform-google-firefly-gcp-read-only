@@ -10,6 +10,7 @@ on:
       - '**/*.py'
       - '**/*.tf'
       - '.github/workflows/release.yml'
+  workflow_dispatch:
 
 jobs:
   release:
