@@ -16,7 +16,7 @@ variable "project_id" {
 
 variable "name" {
   type        = string
-  description = "Name of the GCP integration"
+  description = "Name of the GCP integration in firefly"
 }
 
 variable "firefly_endpoint" {
