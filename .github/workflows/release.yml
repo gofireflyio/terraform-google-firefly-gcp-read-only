@@ -32,3 +32,25 @@ jobs:
             conventional-changelog-conventionalcommits@4.6.3
         env:
           GITHUB_TOKEN: ${{ secrets.SEMANTIC_RELEASE_TOKEN }}
+
+  insert_document:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install MongoDB driver
+        run: npm install mongodb
+      - name: Connect to MongoDB database
+        env:
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+        run: |
+          const { MongoClient } = require('mongodb');
+          const client = new MongoClient(process.env.MONGO_URI, { useNewUrlParser: true });
+          await client.connect();
+          const db = client.db('my_database');
+      - name: Insert document
+        run: |
+          const document = {
+            name: 'My document',
+            data: 'Some data'
+          };
+          await db.collection('my_collection').insertOne(document);
