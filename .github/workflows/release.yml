@@ -34,19 +34,19 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.SEMANTIC_RELEASE_TOKEN }}
 
       - name: Set up Python 3.8
-          uses: actions/setup-python@v2
-          with:
-            python-version: 3.8
-            - name: Save release in mongo
-              run: |
-                python -m venv test
-                source ./test/bin/activate
-                pip install -r requirements.txt
-                export PYTHONPATH="${PYTHONPATH}:${PWD}"
-                python post_release.py
-                deactivate
-              env:
-                PROD_MONGO_URI: ${{ secrets["PROD_MONGO_URI"] }}
-                STAG_MONGO_URI: ${{ secrets["STAG_MONGO_URI"] }}
-                TAG: ${GITHUB_REF#refs/*/}
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+          - name: Save release in mongo
+            run: |
+              python -m venv test
+              source ./test/bin/activate
+              pip install -r requirements.txt
+              export PYTHONPATH="${PYTHONPATH}:${PWD}"
+              python post_release.py
+              deactivate
+            env:
+              PROD_MONGO_URI: ${{ secrets["PROD_MONGO_URI"] }}
+              STAG_MONGO_URI: ${{ secrets["STAG_MONGO_URI"] }}
+              TAG: ${GITHUB_REF#refs/*/}
 
