@@ -33,24 +33,20 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.SEMANTIC_RELEASE_TOKEN }}
 
-  insert_document:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Install MongoDB driver
-        run: npm install mongodb
-      - name: Connect to MongoDB database
-        env:
-          MONGO_URI: ${{ secrets.MONGO_URI }}
-        run: |
-          const { MongoClient } = require('mongodb');
-          const client = new MongoClient(process.env.MONGO_URI, { useNewUrlParser: true });
-          await client.connect();
-          const db = client.db('my_database');
-      - name: Insert document
-        run: |
-          const document = {
-            name: 'My document',
-            data: 'Some data'
-          };
-          await db.collection('my_collection').insertOne(document);
+      - name: Set up Python 3.8
+          uses: actions/setup-python@v2
+          with:
+            python-version: 3.8
+            - name: Save release in mongo
+              run: |
+                python -m venv test
+                source ./test/bin/activate
+                pip install -r requirements.txt
+                export PYTHONPATH="${PYTHONPATH}:${PWD}"
+                python post_release.py
+                deactivate
+              env:
+                PROD_MONGO_URI: ${{ secrets["PROD_MONGO_URI"] }}
+                STAG_MONGO_URI: ${{ secrets["STAG_MONGO_URI"] }}
+                TAG: ${GITHUB_REF#refs/*/}
+
