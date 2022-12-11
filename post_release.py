@@ -9,7 +9,6 @@ document_name = "firefly_gcp_terraform_module_latest"
 
 
 def write_relase(mongo_uri: str, release_tag: str):
-    try:
         try:
             mongo_client: MongoClient = MongoClient(mongo_uri)
             mongo_db: Database = mongo_client.get_database("infralight")
@@ -24,8 +23,8 @@ def write_relase(mongo_uri: str, release_tag: str):
                 print(record)
         except Exception as ex:
             raise ex
-    finally:
-        mongo_client.close()
+        finally:
+            mongo_client.close()
 
 
 def main():
