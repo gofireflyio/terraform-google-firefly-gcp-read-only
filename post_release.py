@@ -4,7 +4,7 @@ from pymongo.database import Database
 from pymongo.collection import Collection
 
 
-collection_name = "generalsettings"
+collection_name = "fireflyReleases"
 document_name = "firefly_gcp_terraform_module_latest"
 
 
