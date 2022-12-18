@@ -32,7 +32,9 @@ jobs:
             conventional-changelog-conventionalcommits@4.6.3
         env:
           GITHUB_TOKEN: ${{ secrets.SEMANTIC_RELEASE_TOKEN }}
-
+      - name: Save latest tag env
+         uses: actions/checkout@v2
+         run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
       - name: Set up Python 3.8
         uses: actions/setup-python@v2
         with:
@@ -48,5 +50,5 @@ jobs:
         env:
           PROD_MONGO_URI: ${{ secrets.PROD_MONGO_URI }}
           STAG_MONGO_URI: ${{ secrets.STAG_MONGO_URI }}
-          TAG: GITHUB_REF
+          TAG: ${{ env.RELEASE_VERSION }}
 
