@@ -32,8 +32,8 @@ jobs:
             conventional-changelog-conventionalcommits@4.6.3
         env:
           GITHUB_TOKEN: ${{ secrets.SEMANTIC_RELEASE_TOKEN }}
-      - name: Save latest tag env
-         uses: actions/checkout@v2
+
+      - name: Set env
          run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
       - name: Set up Python 3.8
         uses: actions/setup-python@v2
