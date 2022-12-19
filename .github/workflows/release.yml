@@ -35,9 +35,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.SEMANTIC_RELEASE_TOKEN }}
           
       - name: Set env current release
-        if: steps.semantic.outputs.new_release_published == 'false'
         run: echo "RELEASE_VERSION=${{ steps.semantic.outputs.last_release_version }}" >> $GITHUB_ENV
-      - name: Set env new release
+      - name: Set env new release if exist
         if: steps.semantic.outputs.new_release_published == 'true'
         run: echo "RELEASE_VERSION=${{ steps.semantic.outputs.new_release_version }}" >> $GITHUB_ENV
       - name: Set up Python 3.8
