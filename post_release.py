@@ -31,18 +31,18 @@ def main():
     release_tag = os.getenv("TAG")
     print(release_tag)
     if release_tag:
-#         try:
-#             prod_mongo_uri = os.getenv("PROD_MONGO_URI")
-#             write_relase(prod_mongo_uri, release_tag)
-#         except Exception as ex:
-#             print("Could not updates releases to MongoDB")
-#             raise ex
         try:
-            stag_mongo_uri = os.getenv("STAG_MONGO_URI")
-            write_relase(stag_mongo_uri, release_tag)
+            prod_mongo_uri = os.getenv("PROD_MONGO_URI")
+            write_relase(prod_mongo_uri, release_tag)
         except Exception as ex:
             print("Could not updates releases to MongoDB")
             raise ex
+#         try:
+#             stag_mongo_uri = os.getenv("STAG_MONGO_URI")
+#             write_relase(stag_mongo_uri, release_tag)
+#         except Exception as ex:
+#             print("Could not updates releases to MongoDB")
+#             raise ex
     else:
         print("release tag is empty")
 
