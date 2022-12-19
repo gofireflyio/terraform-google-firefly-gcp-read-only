@@ -14,7 +14,7 @@ on:
 jobs:
   release:
     name: Release
-    runs-on: self-hosted
+    runs-on: [self-hosted, production]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -33,10 +33,10 @@ jobs:
             conventional-changelog-conventionalcommits@4.6.3
         env:
           GITHUB_TOKEN: ${{ secrets.SEMANTIC_RELEASE_TOKEN }}
-      - name: Echo
-        run: echo ${{ steps.tag.outputs.result }}
       - name: Set env
         run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+      - name: Echo
+        run: echo ${{ steps.tag.outputs.result }}
       - name: Set up Python 3.8
         uses: actions/setup-python@v2
         with:
