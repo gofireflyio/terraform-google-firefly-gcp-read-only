@@ -33,10 +33,9 @@ jobs:
             conventional-changelog-conventionalcommits@4.6.3
         env:
           GITHUB_TOKEN: ${{ secrets.SEMANTIC_RELEASE_TOKEN }}
+          
       - name: Set env
         run: echo "RELEASE_VERSION=${{ steps.semantic.outputs.new_release_version }}" >> $GITHUB_ENV
-      - name: Echo
-        run: echo ${{ steps.semantic.outputs.new_release_version }}
       - name: Set up Python 3.8
         uses: actions/setup-python@v2
         with:
