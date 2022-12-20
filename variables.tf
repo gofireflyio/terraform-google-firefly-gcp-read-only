@@ -11,7 +11,7 @@ variable "firefly_secret_key" {
 
 variable "project_id" {
   type        = string
-  description = "The ID of the project to connect."
+  description = "The GCP ID of the project to connect."
 }
 
 variable "name" {
