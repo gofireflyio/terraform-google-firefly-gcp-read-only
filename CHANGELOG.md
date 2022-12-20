@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.0](https://github.com/gofireflyio/terraform-google-firefly-gcp-read-only/compare/v1.1.0...v1.2.0) (2022-12-20)
+
+
+### Features
+
+* change description ([d24e885](https://github.com/gofireflyio/terraform-google-firefly-gcp-read-only/commit/d24e885fae615b006edd06fd057a7e08d4d4000c))
+
 ## [1.1.0](https://github.com/gofireflyio/terraform-google-firefly-gcp-read-only/compare/v1.0.0...v1.1.0) (2022-12-20)
 
 
