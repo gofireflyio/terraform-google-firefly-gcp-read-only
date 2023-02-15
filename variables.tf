@@ -24,3 +24,9 @@ variable "firefly_endpoint" {
   description = "The Firefly endpoint to register account management"
   default     = "https://prodapi.gofirefly.io/api"
 }
+
+variable "resource_prefix" {
+  type = string
+  description = "Optional prefix to module resource names"
+  default = ""
+}

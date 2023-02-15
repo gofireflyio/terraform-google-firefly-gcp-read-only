@@ -1,6 +1,6 @@
 resource "google_service_account" "firefly" {
-  display_name = "${data.google_project.current.name}-firefly-access"
-  account_id   = "firefly-gcp"
+  display_name = "${var.resource_prefix}${data.google_project.current.name}-firefly-access"
+  account_id   = "${var.resource_prefix}firefly-gcp"
   project      = data.google_project.current.project_id
 
   depends_on = [google_project_service.main]
