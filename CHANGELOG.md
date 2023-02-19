@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.0](https://github.com/gofireflyio/terraform-google-firefly-gcp-read-only/compare/v1.2.0...v1.3.0) (2023-02-19)
+
+
+### Features
+
+* Allow prefixing created resources ([07d5011](https://github.com/gofireflyio/terraform-google-firefly-gcp-read-only/commit/07d5011883b82daac751e16cb1342000d87a06f4))
+
 ## [1.2.0](https://github.com/gofireflyio/terraform-google-firefly-gcp-read-only/compare/v1.1.0...v1.2.0) (2022-12-20)
 
 
