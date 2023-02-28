@@ -15,11 +15,11 @@ locals {
     "iam.googleapis.com",
     "container.googleapis.com",
     "servicemanagement.googleapis.com",
+    "serviceusage.googleapis.com",
     "logging.googleapis.com",
     "cloudasset.googleapis.com",
     "redis.googleapis.com",
     "storage-api.googleapis.com",
-    "groupssettings.googleapis.com",
     "spanner.googleapis.com"
   ]
 
