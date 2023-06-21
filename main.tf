@@ -32,6 +32,8 @@ resource "terracurl_request" "firefly_gcp_integration" {
     {
       "name"= var.name,
       "projectId"= var.project_id,
+      "isPrimary" = true,
+      "shouldAutoDiscoverProjects" = true,
       "serviceAccountKey"= tostring(base64decode(google_service_account_key.credentials.private_key))
     }
   )
