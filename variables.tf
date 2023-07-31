@@ -22,7 +22,7 @@ variable "name" {
 variable "firefly_endpoint" {
   type        = string
   description = "The Firefly endpoint to register account management"
-  default     = "https://prodapi.gofirefly.io/api"
+  default     = "https://prodapi.firefly.ai/api"
 }
 
 variable "resource_prefix" {
