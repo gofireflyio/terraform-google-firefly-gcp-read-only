@@ -29,6 +29,13 @@ resource "google_project_iam_member" "service_account_project_viewer" {
   member  = "serviceAccount:${google_service_account.firefly.email}"
 }
 
+resource "google_project_iam_member" "service_account_project_event_driven_sink_creation" {
+  count  = var.enable_event_driven ? 1 : 0
+  project = data.google_project.current.project_id
+  role    = "roles/logging.configWriter"
+  member  = "serviceAccount:${google_service_account.firefly.email}"
+}
+
 resource "google_service_account_key" "credentials" {
   service_account_id = google_service_account.firefly.name
 }

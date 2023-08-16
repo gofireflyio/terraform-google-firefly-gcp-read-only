@@ -30,3 +30,9 @@ variable "resource_prefix" {
   description = "Optional prefix to module resource names"
   default = ""
 }
+
+variable "enable_event_driven" {
+  type = bool
+  description = "Whether to create the integration as event driven or not"
+  default = true
+}

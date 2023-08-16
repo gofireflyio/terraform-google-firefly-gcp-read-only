@@ -15,6 +15,10 @@ output "project_membership_viewer" {
   value = google_project_iam_member.service_account_project_viewer
 }
 
+output "project_event_driven_sink_creation" {
+  value = var.enable_event_driven ? google_project_iam_member.service_account_project_event_driven_sink_creation : null
+}
+
 output "project_service" {
   value = google_project_service.main
 }
