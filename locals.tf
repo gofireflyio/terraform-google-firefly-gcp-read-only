@@ -21,7 +21,8 @@ locals {
     "redis.googleapis.com",
     "storage-api.googleapis.com",
     "groupssettings.googleapis.com",
-    "spanner.googleapis.com"
+    "spanner.googleapis.com",
+    "file.googleapis.com"
   ]
 
   version = "0.1.0"
