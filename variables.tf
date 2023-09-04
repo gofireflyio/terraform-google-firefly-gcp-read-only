@@ -36,3 +36,21 @@ variable "enable_event_driven" {
   description = "Whether to create the integration as event driven or not"
   default = true
 }
+
+variable "enable_iac_auto_discover" {
+  type = bool
+  description = "Whether to create the integration with IaC auto discover (searches for state files in GCS buckets)"
+  default = true
+}
+
+variable "is_prod" {
+  type        = bool
+  default     = false
+  description = "Is Production?"
+}
+
+variable "exclude_projects_discovery_regex" {
+  type        = list(string)
+  default     = []
+  description = "Regex to exclude projects from discovery. If empty, all found projects will be discovered and added as integration to Firefly"
+}

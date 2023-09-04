@@ -34,7 +34,11 @@ resource "terracurl_request" "firefly_gcp_integration" {
       "projectId"= var.project_id,
       "isPrimary" = true,
       "shouldAutoDiscoverProjects" = true,
-      "serviceAccountKey"= tostring(base64decode(google_service_account_key.credentials.private_key))
+      "serviceAccountKey"= tostring(base64decode(google_service_account_key.credentials.private_key)),
+      "isProd"= var.is_prod,
+      "isEventDrivenDisabled"= !var.enable_event_driven,
+      "isIacAutoDiscoverDisabled"= !var.enable_iac_auto_discover,
+      "regexExcludeProjectsDiscovery"= var.exclude_projects_discovery_regex
     }
   )
 
