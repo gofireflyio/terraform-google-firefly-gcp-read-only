@@ -30,4 +30,5 @@ module “firefly” {
   firefly_secret_key    = “<SECRET>”
   name  		= “<INTEGRATION_NAME>”
   project_id	 	= “<GCP_PROJECT_NAME>”
+  exclude_projects_discovery_regex = ["<EXCLUSION_REGEX>", "<EXCLUSION_REGEX>"] // optinal
 }```
