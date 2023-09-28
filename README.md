@@ -31,4 +31,5 @@ module “firefly” {
   name  		= “<INTEGRATION_NAME>”
   project_id	 	= “<GCP_PROJECT_NAME>”
   exclude_projects_discovery_regex = ["<EXCLUSION_REGEX>", "<EXCLUSION_REGEX>"] // optional
-}```
+}
+```
