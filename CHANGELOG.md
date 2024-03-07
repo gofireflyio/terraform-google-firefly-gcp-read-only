@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.0](https://github.com/gofireflyio/terraform-google-firefly-gcp-read-only/compare/v1.4.0...v2.0.0) (2024-03-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* Replace terracurl with official hashicorp http
+
+* BREAKING CHANGE: Replace terracurl with official hashicorp http (#35) ([6be83bf](https://github.com/gofireflyio/terraform-google-firefly-gcp-read-only/commit/6be83bf58f03c8a5bf7ab15360b32163c2671320)), closes [#35](https://github.com/gofireflyio/terraform-google-firefly-gcp-read-only/issues/35)
+
 ## [1.3.0](https://github.com/gofireflyio/terraform-google-firefly-gcp-read-only/compare/v1.2.0...v1.3.0) (2023-02-19)
 
 
