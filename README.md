@@ -33,3 +33,18 @@ module “firefly” {
   exclude_projects_discovery_regex = ["<EXCLUSION_REGEX>", "<EXCLUSION_REGEX>"] // optional
 }
 ```
+
+### Upgrading from v1.y.z to v2.y.z
+Use of `devops-rob/terracurl` provider is removed in favour of official `hashicorp/http`
+Prior to upgrading it is reuqired to remove the deprecated resources from the state eg:
+```
+terraform state list | grep terracurl_request
+
+module.firefly.terracurl_request.firefly_gcp_integration
+```
+```
+terraform state rm "module.firefly.terracurl_request.firefly_gcp_integration"
+
+Removed module.firefly.terracurl_request.firefly_gcp_integration
+Successfully removed 1 resource instance(s).
+```
