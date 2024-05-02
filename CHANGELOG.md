@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.1.0](https://github.com/gofireflyio/terraform-google-firefly-gcp-read-only/compare/v2.0.0...v2.1.0) (2024-05-02)
+
+
+### Features
+
+* enable recommender google apis ([27c7993](https://github.com/gofireflyio/terraform-google-firefly-gcp-read-only/commit/27c7993f43df2f0e42182ea4ba814bea0b55905a))
+
 ## [2.0.0](https://github.com/gofireflyio/terraform-google-firefly-gcp-read-only/compare/v1.4.0...v2.0.0) (2024-03-07)
 
 
