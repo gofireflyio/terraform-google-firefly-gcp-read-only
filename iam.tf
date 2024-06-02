@@ -54,3 +54,13 @@ resource "google_project_iam_member" "service_account_project_event_driven_sink_
 resource "google_service_account_key" "credentials" {
   service_account_id = google_service_account.firefly.name
 }
+
+resource "google_organization_iam_binding" "example" {
+  count = var.enable_folder_viewer ? 1 : 0
+  organization = var.org_id
+  role         = "roles/resourcemanager.folderViewer"
+
+  members = [
+    "serviceAccount:${google_service_account.firefly.email}",
+  ]
+}
