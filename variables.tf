@@ -54,3 +54,15 @@ variable "exclude_projects_discovery_regex" {
   default     = []
   description = "Regex to exclude projects from discovery. If empty, all found projects will be discovered and added as integration to Firefly"
 }
+
+variable "enable_folder_viewer" {
+  type        = bool
+  default     = true
+  description = "Should Firefly discover the projects' folder names?"
+}
+
+variable "org_id" {
+  type = string
+  description = "Mandatory only for folders viewer."
+  default = ""
+}
