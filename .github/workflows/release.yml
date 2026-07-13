@@ -14,7 +14,7 @@ on:
 jobs:
   release:
     name: Release
-    runs-on: [self-hosted, production]
+    runs-on: gofireflyio-runner-prod-arc-arm
     steps:
       - name: Checkout
         uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
