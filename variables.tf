@@ -43,6 +43,27 @@ variable "enable_iac_auto_discover" {
   default = true
 }
 
+variable "state_bucket_project_id" {
+  type        = string
+  description = "Project containing the state buckets. Default is to assume the same project as the integration resources."
+  default     = null
+}
+
+variable "state_bucket_names" {
+  type        = set(string)
+  description = "GCS bucket names allowed for state object reads in this project. An empty set preserves access to objects ending in tfstate in all project buckets."
+  default     = []
+  nullable    = false
+
+  validation {
+    condition = alltrue([
+      for bucket in var.state_bucket_names :
+      can(regex("^[a-z0-9][a-z0-9._-]{1,220}[a-z0-9]$", bucket))
+    ])
+    error_message = "State buckets must be bare GCS bucket names, without gs:// prefixes or object paths."
+  }
+}
+
 variable "is_prod" {
   type        = bool
   default     = false

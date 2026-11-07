@@ -13,13 +13,19 @@ resource "google_project_iam_member" "service_account_project_membership" {
 }
 
 resource "google_project_iam_member" "service_account_project_membership_storage_viewer" {
-  project = data.google_project.current.project_id
+  project = var.state_bucket_project_id != null ? var.state_bucket_project_id : data.google_project.current.project_id
   role    = "roles/storage.objectViewer"
   member  = "serviceAccount:${google_service_account.firefly.email}"
   condition {
     title       = "TFfstate"
     description = "Allow access to objects that end with .tfstate only"
-    expression  = "resource.name.endsWith(\"tfstate\")"
+    expression = length(var.state_bucket_names) == 0 ? "resource.name.endsWith(\"tfstate\")" : format(
+      "resource.name.endsWith(\"tfstate\") && (%s)",
+      join(" || ", [
+        for bucket in sort(tolist(var.state_bucket_names)) :
+        format("resource.name.startsWith(%s)", jsonencode("projects/_/buckets/${bucket}/objects/"))
+      ])
+    )
   }
 }
 
